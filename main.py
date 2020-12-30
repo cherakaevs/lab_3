@@ -21,13 +21,15 @@ class DirectoryEventHandler(FileSystemEventHandler):
 def stop_observer():
     global observer
     observer.stop()
-    observer.join()
+    if observe.is_alive():
+        observer.join()
 
-def start_observer(path):
-    global observer, event_handler
-    callback(f"{datetime.datetime.now()}: Started watching {path}")
-    observer.schedule(event_handler, path, recursive=True)
+def start_observer(dirPath):
+    global observer, event_handler, path
+    callback(f"{datetime.datetime.now()}: Started watching {dirPath}")
+    observer.schedule(event_handler, dirPath, recursive=True)
     observer.start()
+    path = dirPath
 
 def callback(message):
     global sctext_log
@@ -85,7 +87,7 @@ if __name__ == "__main__":
     button_save_txt.clicked.connect(save_txt)
     button_save_txt.setFixedSize(90, 20)
     button_stop = QPushButton('Stop')
-    button_stop.clicked.connect(observer.stop)
+    button_stop.clicked.connect(stop_observer)
     button_stop.setFixedSize(90, 20)
 
     window = QWidget()
