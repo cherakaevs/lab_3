@@ -87,7 +87,7 @@ if __name__ == "__main__":
     button_save_txt.clicked.connect(save_txt)
     button_save_txt.setFixedSize(90, 20)
     button_stop = QPushButton('Stop')
-    button_stop.clicked.connect(stop_observer)
+    button_stop.clicked.connect(observer.unschedule_all)
     button_stop.setFixedSize(90, 20)
 
     window = QWidget()
